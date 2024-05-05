@@ -3,6 +3,7 @@
 
 Solution - https://leetcode.com/problems/remove-duplicates-from-sorted-list/solutions/5111796/optimised/
 
+https://leetcode.com/problems/swapping-nodes-in-a-linked-list/submissions/1249958608/
 
 Solution - 
 Description
@@ -55,21 +56,40 @@ function ListNode(val, next) {
     this.next = (next === undefined ? null : next)
 }
 
+function createLinkedList(arr) {
+    if (arr.length === 0) {
+        return null;
+    }
+
+    let head = new ListNode(arr[0]);
+    let current = head;
+
+    for (let i = 1; i < arr.length; i++) {
+        current.next = new ListNode(arr[i]);
+        current = current.next;
+    }
+
+    return head;
+}
+
 var deleteDuplicates = function(head) {
     let currentNode = head;
-    // Loop through the list while the current node and the next node are not null
-    while(currentNode &&  currentNode.next){
-        // Compare the current node value with the next node value
-        if(currentNode.val === currentNode.next.val){
-            // If they are equal, skip the next node by pointing to node after next.
-            currentNode.next = currentNode.next.next;
-        }
-        else{
-           // If they are not equal, move to the next node
-           currentNode.next = currentNode.next;
-        }
+// Loop through the list while the current node and the next node are not null
+while(currentNode && currentNode.next){
+ // Compare the current node value with the next node value
+    if(currentNode.val === currentNode.next.val){
+    // If they are equal, skip the next node by pointing to node after next.
+        currentNode.next = currentNode.next.next;
     }
-    console.log(head);
-    return head;
+    else{
+ // If they are not equal, move to the next node
+        currentNode = currentNode.next;
+    }
+}
+return head;
 };
 
+let headArr = [1,1,2];
+let headList = createLinkedList(headArr);
+
+console.log(deleteDuplicates(headList))
