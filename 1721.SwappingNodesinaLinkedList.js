@@ -3,6 +3,8 @@
 
 Solution - https://leetcode.com/problems/swapping-nodes-in-a-linked-list/post-solution/?submissionId=1249958608
 
+https://leetcode.com/problems/swapping-nodes-in-a-linked-list/solutions/5130708/optimised/
+
 Description
 You are given the head of a linked list, and an integer k.
 

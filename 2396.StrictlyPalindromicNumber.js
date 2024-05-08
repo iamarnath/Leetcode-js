@@ -3,6 +3,8 @@
 
 Solution - https://leetcode.com/problems/strictly-palindromic-number/submissions/1249970459/
 
+https://leetcode.com/problems/strictly-palindromic-number/solutions/5130731/optimised/
+
 Description
 An integer n is strictly palindromic if, for every base b between 2 and n - 2 (inclusive), the string representation of the integer n in base b is palindromic.
 
@@ -34,7 +36,27 @@ Constraints:
 4 <= n <= 105
 
 */
+/*
+Approach:
+The isPalindrome function checks if a given string is a palindrome by comparing characters from both ends towards the center.
+The isStrictlyPalindromic function checks if a number n is palindromic in all bases from 2 to n - 1 by converting n to each base and checking if the converted number is a palindrome using the isPalindrome function.
+Time Complexity:
+For isPalindrome:
+The time complexity is O(N/2) where N is the length of the input string str.
+The function compares characters from both ends until the pointers meet in the middle.
+For isStrictlyPalindromic:
+The time complexity is O((n-2) * M) where M is the maximum length of the converted number in any base.
+The function iterates through bases from 2 to n - 1 and converts n to each base, checking if it's a palindrome.
+Space Complexity:
+For isPalindrome:
+The space complexity is O(1) as the function uses a constant amount of extra space for the pointers and comparisons.
+For isStrictlyPalindromic:
+The space complexity is O(M) where M is the maximum length of the converted number in any base.
+The function stores the converted number in each base, which can vary in length.
+In summary, the isPalindrome function has a time complexity of O(N/2) and a space complexity of O(1). The isStrictlyPalindromic function has a time complexity of O((n-2) * M) and a space complexity of O(M), where M is the maximum length of the converted number in any base.
 
+
+*/
 
 var isPalindrome = function (str) {
     // Define pointers for the start and end of the string
