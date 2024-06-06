@@ -117,8 +117,10 @@ right nodes of root */
     2) right child of right subtree
     3) right child of left subtree
     4) left child of right subtree */
+    //left of left and right of right is equidistant from mirror
         queue.push(left.left);
         queue.push(right.right);
+    //right of left and left of right is equidistant from mirror
         queue.push(left.right);
         queue.push(right.left);
     }
