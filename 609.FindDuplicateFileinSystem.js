@@ -86,9 +86,13 @@ var findDuplicate = function (paths) {
     const fileContentMap = new Map();
     // Split the path into root directory and files
     for (const path of paths) {
+        // console.log("path11",path)
         const [rootDir, ...files] = path.split(' ');
+        // console.log("rootDir",rootDir);
+        // console.log("files",files)
         // Iterate over each file in the current path
         for (const file of files) {
+            //The filter(Boolean) method is used after the split() method to remove any empty strings from the resulting array.
             const [fileName, fcontent] = file.split(/\(|\)/g).filter(Boolean);
             // Get the existing list of file paths with the same content, or initialize an empty one
             const existingPath = fileContentMap.get(fcontent) ?? [];
@@ -105,6 +109,7 @@ var findDuplicate = function (paths) {
 
 let paths = ["root/a 1.txt(abcd) 2.txt(efgh)", "root/c 3.txt(abcd)", "root/c/d 4.txt(efgh)", "root 4.txt(efgh)"];
 paths = ["root/a 1.txt(abcd) 2.txt(efgh)", "root/c 3.txt(abcd)", "root/c/d 4.txt(efgh)"]
+//console.log("findDuplicate1")
 console.log(findDuplicate(paths))
 
 /*
@@ -243,48 +248,20 @@ What is the time complexity of your modified solution? What is the most time-con
 Ans -
 The time complexity of the modified solution for finding duplicate files based on their content, which reads the file content in 1KB chunks, can be analyzed as follows:
 Reading the file content in 1KB chunks and calculating the hash for each chunk involves iterating over the content in chunks. If the file size is 
-𝑁
 N bytes, the number of iterations required would be approximately 
-𝑁
-/
-1024
 N/1024, resulting in a time complexity of 
-𝑂
-(
-𝑁
-)
 O(N) for hashing the file content.
 Processing each path involves iterating over the files in the path and calculating the hash for each file content. If there are 
-𝑀
 M files in a path, the time complexity for processing a single path would be 
-𝑂
-(
-𝑀
-)
 O(M).
 Processing all paths in parallel using Promise.all results in a time complexity of 
-𝑂
-(
-𝑃
-)
 O(P), where 
 𝑃
 P is the number of paths.
 Therefore, the overall time complexity of the modified solution can be approximated as 
-𝑂
-(
-𝑁
-+
-𝑀
-+
-𝑃
-)
 O(N+M+P), where 
-𝑁
 N is the total size of all file contents, 
-𝑀
 M is the total number of files, and 
-𝑃
 P is the number of paths.
 The most time-consuming part of the solution is likely the hashing process, especially when dealing with large file contents, as it involves iterating over the content in 1KB chunks and calculating the hash for each chunk.
 In terms of memory consumption, the most memory-consuming part would be storing the file content and hashes in memory, especially for large files. Additionally, maintaining the map of file hashes and paths can consume memory, especially when dealing with a large number of files and paths.
@@ -385,4 +362,4 @@ const getFileContent = (filePath) => {
 
 // Usage example
 const paths5 = ["root/a 1.txt(abcd) 2.txt(efgh)","root/c 3.txt(abcd)","root/c/d 4.txt(efgh)","root 4.txt(efgh)"];
-findDuplicateFalsePositive(paths5);
+//findDuplicateFalsePositive(paths5);

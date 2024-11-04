@@ -20,7 +20,7 @@ Explanation: Because the 4th row is incomplete, we return 3.
 
 Constraints:
 
-1 <= n <= 231 - 1
+1 <= n <= 2^31 - 1
 
 */
 /*
@@ -47,6 +47,25 @@ where 𝑎=1, 𝑏=1, and 𝑐=−2𝑁.Substituting the values:
 •	If 1+8N>0, the solution is within the range of the roots.
 By following these steps, you can determine the solution to the quadratic inequality 𝑘^2+𝑘≤2𝑁 based on the value of N.
 */
+/*
+
+Here's a step-by-step explanation of the approach:
+Initialization: The function initializes two pointers, left and right, to represent the range of possible values for k. Initially, left is set to 0 and right is set to n.
+
+Binary Search: The function enters a while loop that continues until left is greater than right. In each iteration, it calculates the midpoint mid of the current range [left, right].
+Check the Midpoint: The function checks if the sum of the first mid positive integers is less than or equal to n. This is done by calculating (mid * (mid + 1) / 2), which is the sum of the first mid positive integers.
+
+Update the Range: If the sum is less than or equal to n, the function updates left to mid + 1 to narrow the range to the right half. If the sum is greater than n, it updates right to mid - 1 to narrow the range to the left half.
+Return the Result: Once the loop ends, the function returns left - 1 as the number of coins that can be arranged in a staircase pattern such that the sum of the first k positive integers is equal to or less than n.
+This approach ensures that the function efficiently finds the correct value of k by repeatedly dividing the search range in half until it finds the correct value.
+
+let n=10
+left=0,right=10
+mid=5
+mid calc= 55
+right = 4
+left = 2
+*/
 var arrangeCoins = function(n) {
     let left = 0, right = n;
     while (left <= right) {
@@ -59,8 +78,13 @@ var arrangeCoins = function(n) {
     }
     return left - 1;
 };
+/*
+The function arrangeCoins returns left - 1 instead of left because the binary search approach is used to find the largest k such that the sum of the first k positive integers is less than or equal to n.
+When the loop ends, left is the smallest k such that the sum of the first k positive integers is greater than n. However, the correct answer is the largest k such that the sum of the first k positive integers is less than or equal to n.
+Therefore, the function returns left - 1 to account for this difference. This ensures that the function returns the correct number of coins that can be arranged in a staircase pattern such that the sum of the first k positive integers is equal to or less than n.
 
-let n = 11;
+*/
+let n = 10;
 
 var arrangeCoins2 = function(n) {
     return Math.floor(Math.sqrt(2*n+0.25)-0.5);

@@ -63,11 +63,13 @@ function findDisappearedNumbers(nums) {
     // corresponding to that number.
     for(let num of nums){
         const index = Math.abs(num) -1;
+        console.log("index--",index)
          // Negate the number at the index if it is positive.
          if(nums[index]>0){
             nums[index] = -nums[index]
          }
     }
+    console.log("nums--",nums)
     const missNumbers = [];
     for(let i=0;i<n;i++){
         if(nums[i]>0){
@@ -78,4 +80,4 @@ function findDisappearedNumbers(nums) {
 }
 
 nums = [4,3,2,7,8,2,3,1];
-console.log(findDisappearedNumbers(nums))
+console.log(findDisappearedNumbers(nums));
