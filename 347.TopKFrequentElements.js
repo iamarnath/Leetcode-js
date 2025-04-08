@@ -52,7 +52,8 @@ function topKFrequent(nums, k) {
     }
     // Convert the Map into an array of key-value pairs
     const frqArr = Array.from(map);
-
+    console.log("map==",map)
+    console.log("frqArr==",frqArr)
     // Sort the array based on frequency in descending order
     frqArr.sort((a, b) => b[1] - a[1]);
     const topElem = [];

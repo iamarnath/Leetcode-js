@@ -64,19 +64,30 @@ var sortColors = function (nums) {
         nums[first] = nums[sec];
         nums[sec] = temp;
     };
+    /*
+    
+    Pointers:
+low: Points to the next position where a 0 should be placed.
+mid: Scans through the array to find the next element to place.
+high: Points to the next position where a 2 should be placed.
+
+    */
     var low = 0, mid = 0, high = nums.length - 1;
     while (mid <= high) {
         switch (nums[mid]) {
+        //Case 0: Swap nums[mid] with nums[low], increment both low and mid.
             case 0: {
                 swap(nums, low, mid);
                 low++;
                 mid++
                 break;
             }
+            //Case 1: Just increment mid.
             case 1: {
                 mid++;
                 break;
             }
+            //Case 2: Swap nums[mid] with nums[high], decrement high but do not increment mid. This is because after swapping, the new value at mid needs to be checked again.
             case 2: {
                 swap(nums, mid, high);
                 high--;

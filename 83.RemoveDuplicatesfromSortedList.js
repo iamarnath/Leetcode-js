@@ -33,10 +33,12 @@ The deleteDuplicates function is designed to remove duplicates from a sorted lin
 It uses a single pointer currentNode to traverse the list and compare adjacent nodes to identify and remove duplicates.
 When a duplicate is found, the function skips over the duplicate node by updating the next pointer of the current node.
 The function continues this process until the end of the list is reached, ensuring that only unique elements remain in the linked list.
+
 Time Complexity:
 The time complexity of the deleteDuplicates function is O(n), where n is the number of nodes in the linked list.
 The function iterates through each node in the list once, and in the worst-case scenario, it may visit each node once to identify and remove duplicates.
 The time complexity is linear as the function processes each node in the list exactly once.
+
 Space Complexity:
 The space complexity of the deleteDuplicates function is O(1) as it uses a constant amount of extra space regardless of the input size.
 The function does not create any additional data structures that grow with the input size, maintaining a constant space complexity.
