@@ -46,7 +46,7 @@ function buildTreeFromArray(arr, index = 0) {
 Approach:
 The optimized isSameTree function first checks if both p and q are null. If they are both null, it returns true, indicating that the trees are the same.
 It then checks if either p or q is null, or if the values of the current nodes p.val and q.val are not equal. If any of these conditions are met, it returns false, indicating that the trees are not the same.
-If the values are equal and both nodes are not null, the function recursively checks the left and right subtrees of pandq` to determine if the trees are the same.
+If the values are equal and both nodes are not null, the function recursively checks the left and right subtrees of p and q` to determine if the trees are the same.
 The function returns true only if all corresponding nodes in both trees are the same.
 Time Complexity:
 

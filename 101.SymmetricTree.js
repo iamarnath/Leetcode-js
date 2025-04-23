@@ -70,10 +70,13 @@ var isSymmetric = function (root) {
 /*
 Approach to Check if a Binary Tree is Symmetric (Iterative)
 The JavaScript function isSymmetric checks if a binary tree is symmetric using an iterative approach with a queue. It compares the left and right subtrees of the root by adding the left and right children of the root to a queue. It then processes the queue by removing pairs of nodes and comparing their values and positions. If the corresponding nodes are not symmetric, the function returns false. If all pairs of nodes are symmetric, the function returns true.
+
 Time Complexity
 The time complexity of this iterative approach is O(n), where n is the number of nodes in the binary tree. The function visits each node once and performs constant time operations on each node.
+
 Space Complexity
 The space complexity is O(n) in the worst case, where the tree is skewed, and all nodes need to be stored in the queue before processing them. In the best case, when the tree is balanced, the space complexity is O(log n), as the maximum size of the queue will be proportional to the number of nodes at the deepest level.
+
 The key steps of the iterative approach are:
 If the root is null, return true since an empty tree is considered symmetric.
 Initialize a queue with the left and right children of the root.
