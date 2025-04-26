@@ -49,19 +49,33 @@ class Solution {
     topKfrequentElement(nums, k) {
         const count = {};
         const freq = Array.from({ length: nums.length + 1 }, () => []);
-
+        console.log("freq initial==",freq);
+        // freq initial== [
+        //   [], [], [], [],
+        //   [], [], [], []
+        // ]
         for (const n of nums) {
             count[n] = (count[n] || 0) + 1;
         }
-        console.log("count==", count);
+        // console.log("count==", count);//count== { '2': 2, '4': 1, '5': 2, '6': 2 }
         for (const n in count) {
             freq[count[n]].push(parseInt(n));
         }
+        console.log("freq final==",freq);
+        //freq final== [ [], [ 4 ], [ 2, 5, 6 ], [], [], [], [], [] ]
         const res = [];
         for (let i = freq.length - 1; i > 0; i--) {
-            console.log("outer loop-",i,freq[i]);
+            // console.log("outer loop-",i,freq[i]);
+            // outer loop- 7 []
+            // outer loop- 6 []
+            // outer loop- 5 []
+            // outer loop- 4 []
+            // outer loop- 3 []
+            // outer loop- 2 [ 2, 5, 6 ]
             for (const n of freq[i]) {
-                console.log("freq==",{ i,n,res});
+                // console.log("freq==",{ i,n,res});
+                // freq== { i: 2, n: 2, res: [] }
+                // freq== { i: 2, n: 5, res: [ 2 ] }
                 res.push(n);
                 if (res.length === k) {
                     return res;
@@ -72,20 +86,20 @@ class Solution {
 }
 
 
-let nums = [2,2,5,5,6,6,4], k = 2
+// let nums = [2,2,5,5,6,6,4], k = 2
 
-let result = topKFrequent(nums,k);
+// let result = topKFrequent(nums,k);
 
-console.log(result)
+// console.log(result)
 
 // Create an instance of Solution
-// const solution = new Solution();
+const solution = new Solution();
 
-// // Example array to test
-// let nums = [2,2, 5, 5, 6, 6, 4], k = 2
+// Example array to test
+let nums = [2,2, 5, 5, 6, 6, 4], k = 2
 
-// // Call the method and store the result
-// const result = solution.topKfrequentElement(nums, k);
+// Call the method and store the result
+const result = solution.topKfrequentElement(nums, k);
 
-// // Print the result
-// console.log(result);
+// Print the result
+console.log(result);
