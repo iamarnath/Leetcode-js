@@ -32,6 +32,7 @@ function TreeNode(val, left, right) {
     this.left = (left === undefined ? null : left);
     this.right = (right === undefined ? null : right);
 }
+
 function buildTreeFromArray(arr, index = 0) {
     if (index >= arr.length || arr[index] === null) {
         return null;
@@ -39,7 +40,6 @@ function buildTreeFromArray(arr, index = 0) {
     let node = new TreeNode(arr[index]);
     node.left = buildTreeFromArray(arr, 2 * index + 1);
     node.right = buildTreeFromArray(arr, 2 * index + 2);
-
     return node;
 }
 /*
@@ -72,8 +72,67 @@ var isSameTree = function (p, q) {
     // Recursively check the left and right subtrees.
     return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 };
+/*
+Overview of the Approach
+Uses Breadth-First Search (BFS) traversal on both trees simultaneously.
 
+Compares nodes level-by-level.
 
+Uses two queues (q1 and q2) to keep track of nodes from each tree.
+
+If at any point nodes differ, returns false.
+
+If traversal completes without mismatches, returns true.
+
+*/
+function isSameTreeBFS(p, q) {
+    const q1 = new Queue();
+    const q2 = new Queue();
+        //Two queues are created, one for each tree.
+
+    //The root nodes p and q are pushed into their respective queues.
+    q1.push(p);
+    q2.push(q);
+    //Continue looping as long as both queues are not empty.
+
+    //This ensures we traverse both trees in parallel.
+    while (!q1.isEmpty() && !q2.isEmpty()) {
+        for (let i = q1.size(); i > 0; i--) {
+            /*
+            For each node currently in q1 (and q2), process them one by one.
+            q1.size() gives the number of nodes at the current level.
+            Pop nodes from both queues to compare.
+            */
+            let nodeP = q1.pop();
+            let nodeQ = q2.pop();
+            //If both nodes are null, they are identical at this position, so continue.
+            if (nodeP === null && nodeQ === null) continue;
+            //If one node is null and the other is not, or their values differ, trees are not the same → return false.
+            if (nodeP === null || nodeQ === null || nodeP.val !== nodeQ.val) {
+                return false;
+            }
+            /*
+            Add the left and right children of both nodes to their respective queues.
+            This prepares for the next level of BFS traversal.
+            */
+            q1.push(nodeP.left);
+            q1.push(nodeP.right);
+            q2.push(nodeQ.left);
+            q2.push(nodeQ.right);
+        }
+    }
+
+    return true;
+}
+/*
+The function assumes Queue supports push() to enqueue and pop() to dequeue.
+
+The BFS traverses both trees level by level, comparing corresponding nodes.
+
+Checking both null nodes ensures structural similarity.
+
+The function returns early on any mismatch, optimizing performance.
+*/
 let p = [1, 2, 3], q = [1, 2, 3];
 p = [1, 2], q = [1, null, 2];
 let treep = buildTreeFromArray(p);

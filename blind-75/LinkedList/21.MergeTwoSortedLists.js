@@ -84,11 +84,49 @@ var mergeTwoLists = function (list1, list2) {
     }
 };
 
+/*
+Space Complexity for Iterative approach
+
+The method rearranges the existing nodes by changing their next pointers.
+
+It does not create new nodes except for the dummy node (which is a constant space).
+
+No additional data structures proportional to input size are used.
+
+Therefore, the space complexity is:
+O(1) = Only a few pointers and dummy node used, no extra space proportional to input
+
+*/
+
+function mergeTwoListsIterative(list1, list2) {
+    const dummy = { val: 0, next: null };
+    let node = dummy;
+    while (list1 && list2) {
+        if (list1.val < list2.val) {
+            node.next = list1;
+            list1 = list1.next;
+        }
+        else {
+            node.next = list2;
+            list2 = list2.next;
+        }
+        node = node.next;
+    }
+    if (list1) {
+        node.next = list1;
+    }
+    else {
+        node.next = list2;
+    }
+    return dummy.next;
+}
 
 //Output: [1,1,2,3,4,4]
 
-list1Arr = [1, 2, 4],list2Arr = [1, 3, 4]
+list1Arr = [1, 2, 4], list2Arr = [1, 3, 4]
 const list1 = createLinkedList(list1Arr);
 const list2 = createLinkedList(list2Arr);
 
 console.log(mergeTwoLists(list1, list2));
+
+//console.log(mergeTwoListsIterative(list1, list2));

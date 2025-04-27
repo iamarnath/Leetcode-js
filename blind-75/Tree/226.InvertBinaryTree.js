@@ -53,18 +53,33 @@ The space complexity of this function is also O(n) in the worst-case scenario. T
 */
 function invertTree(root) {
     // Recursive function to traverse the tree and swap children
-    const dfs = (node)=>{
-        if(node === null){
+    const dfs = (node) => {
+        if (node === null) {
             return
         }
-        [node.left,node.right] = [node.right,node.left];
+        [node.left, node.right] = [node.right, node.left];
         dfs(node.left); // Recursively invert the left subtree
         dfs(node.right);// Recursively invert the right subtree
     }
     dfs(root); // Start inverting from the root node
     return root;
 }
-let root2 = [4,2,7,1,3,6,9];
+
+function invertTreeIterative(root) {
+    if (!root) return null;
+    const stack = [root];
+    while (stack.length) {
+        const node = stack.pop();
+        [node.left, node.right] = [node.right, node.left];
+        if (node.left) stack.push(node.left);
+        if (node.right) stack.push(node.right);
+    }
+    return root;
+}
+let root2 = [4, 2, 7, 1, 3, 6, 9];
 
 let tree2 = buildTreeFromArray(root2);
-console.log(invertTree(tree2))
+console.log("tree2==", tree2)
+//console.log(invertTree(tree2))
+
+console.log("invert=", invertTreeIterative(tree2))

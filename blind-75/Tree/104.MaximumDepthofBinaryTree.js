@@ -84,18 +84,22 @@ If the depth is not found in the depthMap, we recursively call maxDepth on the l
 We calculate the current node's depth as 1 + Math.max(leftDepth, rightDepth), where leftDepth and rightDepth are the depths of the left and right subtrees, respectively.
 We store the calculated depth of the current node in the depthMap using root as the key.
 Finally, we return the calculated depth of the current node.
+
 Time Complexity:
+
 The time complexity of this optimized maxDepth function is O(n), where n is the number of nodes in the binary tree.
 The memoization technique ensures that each node's depth is calculated only once, reducing redundant calculations and improving efficiency.
 In the worst case, where the tree is skewed, the function will still visit each node once, resulting in a time complexity of O(n).
+
 Space Complexity:
+
 The space complexity of this optimized function is O(n) in the worst case, where n is the number of nodes in the binary tree.
 The space is used for storing the depth of each node in the depthMap, which can grow linearly with the number of nodes in the tree.
 Additionally, the recursive calls on the call stack will also consume space proportional to the height of the tree, which can be up to O(n) in the worst case for a skewed tree.
 
 */
 //approach 2
-var maxDepth2 = function(root, depthMap = new Map()) {
+var maxDepth2 = function (root, depthMap = new Map()) {
     if (root === null) {
         return 0;
     }
@@ -104,8 +108,8 @@ var maxDepth2 = function(root, depthMap = new Map()) {
         return depthMap.get(root);
     }
 
-    let leftDepth = maxDepth(root.left, depthMap);
-    let rightDepth = maxDepth(root.right, depthMap);
+    let leftDepth = maxDepth2(root.left, depthMap);
+    let rightDepth = maxDepth2(root.right, depthMap);
 
     let currentDepth = 1 + Math.max(leftDepth, rightDepth);
     depthMap.set(root, currentDepth);
@@ -113,6 +117,34 @@ var maxDepth2 = function(root, depthMap = new Map()) {
     return currentDepth;
 }
 
+var maxDepthIterative = function (root) {
+    const stack = [[root, 1]];
+    let res = 0;
+    while (stack.length > 0) {
+        /*
+        While the stack is not empty, pop the top element.
+        Extract the current node and its depth.
+        */
+        const current = stack.pop();
+        const node = current[0];
+        const depth = current[1];
+        /*
+        If the current node is not null:
+
+            Update res with the maximum of the current res and the current node's depth.
+
+            Push the left child and right child onto the stack with their depth incremented by 1.
+
+                This means children are at depth + 1.
+        */
+        if (node != null) {
+            res = Math.max(res, depth);
+            stack.push([node.left, depth + 1]);
+            stack.push([node.right, depth + 1]);
+        }
+    }
+    return res
+}
 
 // Example usage:
 let root1 = [1, null, 2];
@@ -122,4 +154,4 @@ let tree1 = buildTreeFromArray(root1);
 //console.log("tree1--",tree1);
 let tree2 = buildTreeFromArray(root2);
 //console.log("tree2--",tree2);
-console.log(maxDepth(tree1));
+console.log(maxDepthIterative(tree2));
