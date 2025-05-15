@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .form-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        input.valid {
+            border-color: #4CAF50;
+        }
+        
+        input.invalid {
+            border-color: #f44336;
+        }
+        
+        .error {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #45a049;
+        }
+        
+        .success {
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" required minlength="2">
+                <div class="error" id="nameError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
+                <div class="error" id="emailError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required minlength="8">
+                <div class="error" id="passwordError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" required>
+                <div class="error" id="confirmPasswordError"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" required min="18" max="99">
+                <div class="error" id="ageError"></div>
+            </div>
+            
+            <button type="submit">Submit</button>
+            <div class="success" id="successMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (validateForm()) {
+                document.getElementById('successMessage').textContent = 'Form submitted successfully!';
+                // In a real application, you would submit the form to a server here
+            }
+        });
+
+        // Add event listeners for real-time validation
+        document.getElementById('name').addEventListener('input', validateName);
+        document.getElementById('email').addEventListener('input', validateEmail);
+        document.getElementById('password').addEventListener('input', validatePassword);
+        document.getElementById('confirmPassword').addEventListener('input', validateConfirmPassword);
+        document.getElementById('age').addEventListener('input', validateAge);
+
+        function validateForm() {
+            const isNameValid = validateName();
+            const isEmailValid = validateEmail();
+            const isPasswordValid = validatePassword();
+            const isConfirmPasswordValid = validateConfirmPassword();
+            const isAgeValid = validateAge();
+            
+            return isNameValid && isEmailValid && isPasswordValid && 
+                   isConfirmPasswordValid && isAgeValid;
+        }
+
+        function validateName() {
+            const name = document.getElementById('name');
+            const error = document.getElementById('nameError');
+            
+            if (name.value.length < 2) {
+                name.classList.add('invalid');
+                name.classList.remove('valid');
+                error.textContent = 'Name must be at least 2 characters';
+                return false;
+            } else {
+                name.classList.add('valid');
+                name.classList.remove('invalid');
+                error.textContent = '';
+                return true;
+            }
+        }
+
+        function validateEmail() {
+            const email = document.getElementById('email');
+            const error = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(email.value)) {
+                email.classList.add('invalid');
+                email.classList.remove('valid');
+                error.textContent = 'Please enter a valid email address';
+                return false;
+            } else {
+                email.classList.add('valid');
+                email.classList.remove('invalid');
+                error.textContent = '';
+                return true;
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById('password');
+            const error = document.getElementById('passwordError');
+            const hasNumber = /\d/.test(password.value);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password.value);
+            
+            if (password.value.length < 8) {
+                password.classList.add('invalid');
+                password.classList.remove('valid');
+                error.textContent = 'Password must be at least 8 characters';
+                return false;
+            } else if (!hasNumber || !hasSpecialChar) {
+                password.classList.add('invalid');
+                password.classList.remove('valid');
+                error.textContent = 'Password must contain at least 1 number and 1 special character';
+                return false;
+            } else {
+                password.classList.add('valid');
+                password.classList.remove('invalid');
+                error.textContent = '';
+                return true;
+            }
+        }
+
+        function validateConfirmPassword() {
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirmPassword');
+            const error = document.getElementById('confirmPasswordError');
+            
+            if (confirmPassword.value !== password.value) {
+                confirmPassword.classList.add('invalid');
+                confirmPassword.classList.remove('valid');
+                error.textContent = 'Passwords do not match';
+                return false;
+            } else {
+                confirmPassword.classList.add('valid');
+                confirmPassword.classList.remove('invalid');
+                error.textContent = '';
+                return true;
+            }
+        }
+
+        function validateAge() {
+            const age = document.getElementById('age');
+            const error = document.getElementById('ageError');
+            const ageValue = parseInt(age.value);
+            
+            if (isNaN(ageValue) || ageValue < 18 || ageValue > 99) {
+                age.classList.add('invalid');
+                age.classList.remove('valid');
+                error.textContent = 'Age must be between 18 and 99';
+                return false;
+            } else {
+                age.classList.add('valid');
+                age.classList.remove('invalid');
+                error.textContent = '';
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

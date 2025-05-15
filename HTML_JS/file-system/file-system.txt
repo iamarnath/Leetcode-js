@@ -1,0 +1,175 @@
+Directory File System Interface Design
+Understanding the Problem
+We need to design a system that can:
+
+Represent a directory structure with files of different extensions (XML, JSON, etc.)
+
+Handle nested directories to any depth (n-level hierarchy)
+
+Provide methods to:
+
+Find all XML files
+
+Find all files >5MB
+
+Combine these filters (XML AND >5MB)
+
+Make the solution reusable for other filter combinations
+
+Interface Design
+First, let's design the TypeScript interfaces to represent this structure:
+
+typescript
+interface FileSystemItem {
+  name: string;
+  path: string;
+  size: number; // in bytes
+}
+
+interface File extends FileSystemItem {
+  type: 'file';
+  extension: string;
+}
+
+interface Directory extends FileSystemItem {
+  type: 'directory';
+  children: FileSystemItem[];
+}
+Solution Approach
+1. Find all XML files
+typescript
+function findXmlFiles(directory: Directory): File[] {
+  const xmlFiles: File[] = [];
+  
+  function traverse(current: FileSystemItem) {
+    if (current.type === 'file' && current.extension.toLowerCase() === '.xml') {
+      xmlFiles.push(current);
+    } else if (current.type === 'directory') {
+      current.children.forEach(traverse);
+    }
+  }
+  
+  traverse(directory);
+  return xmlFiles;
+}
+2. Find all files >5MB
+typescript
+function findLargeFiles(directory: Directory, sizeThreshold: number = 5 * 1024 * 1024): File[] {
+  const largeFiles: File[] = [];
+  
+  function traverse(current: FileSystemItem) {
+    if (current.type === 'file' && current.size > sizeThreshold) {
+      largeFiles.push(current);
+    } else if (current.type === 'directory') {
+      current.children.forEach(traverse);
+    }
+  }
+  
+  traverse(directory);
+  return largeFiles;
+}
+3. Reusable Solution with Filter Functions
+To make this reusable, we can create a generic file finder that accepts filter functions:
+
+typescript
+type FileFilter = (file: File) => boolean;
+
+function findFiles(directory: Directory, filter: FileFilter): File[] {
+  const matchingFiles: File[] = [];
+  
+  function traverse(current: FileSystemItem) {
+    if (current.type === 'file' && filter(current)) {
+      matchingFiles.push(current);
+    } else if (current.type === 'directory') {
+      current.children.forEach(traverse);
+    }
+  }
+  
+  traverse(directory);
+  return matchingFiles;
+}
+
+// Filter functions
+const isXmlFile: FileFilter = (file) => file.extension.toLowerCase() === '.xml';
+const isLargeFile: FileFilter = (file, sizeThreshold = 5 * 1024 * 1024) => 
+  file.size > sizeThreshold;
+
+// Combined filter
+const isLargeXmlFile: FileFilter = (file) => 
+  isXmlFile(file) && isLargeFile(file);
+
+// Usage examples
+const allXmlFiles = findFiles(rootDirectory, isXmlFile);
+const allLargeFiles = findFiles(rootDirectory, isLargeFile);
+const largeXmlFiles = findFiles(rootDirectory, isLargeXmlFile);
+Explanation to Interviewer
+Interface Design:
+
+Created a type system to represent files and directories
+
+Used discriminated union (type property) to distinguish between them
+
+Each item has basic metadata (name, path, size)
+
+Initial Solutions:
+
+First implemented specific solutions for XML files and large files
+
+Both use depth-first traversal to handle nested directories
+
+Demonstrated understanding of recursive tree traversal
+
+Reusable Solution:
+
+Identified the pattern in both solutions (traversal + filtering)
+
+Extracted the filtering logic into separate predicate functions
+
+Created a generic findFiles function that accepts any filter
+
+Showed how to combine filters using logical AND
+
+Advantages:
+
+Single traversal implementation (DRY principle)
+
+Easy to add new filters without modifying traversal logic
+
+Filters are composable (can combine them in any way)
+
+Type-safe implementation with TypeScript
+
+Follow-up Considerations
+If asked about further improvements:
+
+Performance:
+
+For very large directories, could implement iterative traversal
+
+Could add caching if the directory structure doesn't change often
+
+Additional Features:
+
+Add support for other filter combinations (OR, NOT)
+
+Add async support for remote filesystems
+
+Add progress reporting for large directories
+
+Error Handling:
+
+Add handling for permission errors
+
+Handle circular references in directory structure
+
+This solution demonstrates strong understanding of:
+
+Tree data structures and recursion
+
+Functional programming principles (higher-order functions)
+
+TypeScript's type system
+
+Clean, maintainable code design
+
+Problem decomposition and pattern recognition
