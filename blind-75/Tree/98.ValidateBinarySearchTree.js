@@ -84,12 +84,15 @@ function isValidBST(root) {
 }
 
 /*
-Certainly! Here's an alternative approach to validate a Binary Search Tree (BST) using inorder traversal logic.
+Certainly! Here's an alternative approach to validate a Binary 
+Search Tree (BST) using inorder traversal logic.
 
 Idea: Inorder Traversal of a BST is Sorted
-When you do an inorder traversal (left → root → right) on a BST, the node values should appear in strictly increasing order.
+When you do an inorder traversal (left → root → right) on a BST,
+ the node values should appear in strictly increasing order.
 
-So, we can traverse the tree inorder and check if the current node's value is greater than the previous node's value.
+So, we can traverse the tree inorder and check if the 
+current node's value is greater than the previous node's value.
 
 If not, the tree is not a valid BST.
 
@@ -99,3 +102,38 @@ let root1 = [3, 9, 20, null, null, 15, 7];
 let tree1 = buildTreeFromArray(root1);
 
 levelOrder(tree1)
+
+
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+function checkBST(root) {
+  const inOrderList = [];
+  helper(root, inOrderList);
+  
+  if (inOrderList.length === 0) return true; // Empty tree is BST
+  
+  let isBST = true;
+  let prev = inOrderList[0];
+  
+  for (let i = 1; i < inOrderList.length; i++) {
+    if (inOrderList[i] <= prev) {
+      isBST = false;
+      break; // Optimization: exit early if invalid
+    }
+    prev = inOrderList[i];
+  }
+  return isBST;
+}
+
+function helper(node, arr) {
+  if (!node) return;
+  helper(node.left, arr);
+  arr.push(node.val);
+  helper(node.right, arr);
+}
