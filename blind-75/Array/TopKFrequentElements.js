@@ -57,7 +57,7 @@ class Solution {
         for (const n of nums) {
             count[n] = (count[n] || 0) + 1;
         }
-        // console.log("count==", count);//count== { '2': 2, '4': 1, '5': 2, '6': 2 }
+        console.log("count==", count);//count== { '2': 2, '4': 1, '5': 2, '6': 2 }
         for (const n in count) {
             freq[count[n]].push(parseInt(n));
         }
@@ -72,6 +72,7 @@ class Solution {
             // outer loop- 4 []
             // outer loop- 3 []
             // outer loop- 2 [ 2, 5, 6 ]
+            console.log("freq[i]==",i,freq[i]);
             for (const n of freq[i]) {
                 // console.log("freq==",{ i,n,res});
                 // freq== { i: 2, n: 2, res: [] }

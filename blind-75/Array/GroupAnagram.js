@@ -53,8 +53,8 @@ class Solution {
 // Create an instance of Solution
 const solution = new Solution();
 
-//let strs = ["act","pots","tops","cat","stop","hat"]
- strs = ["x"]
+let strs = ["act","pots","tops","cat","stop","hat"]
+ //strs = ["x"]
 const result = solution.groupAnagrams(strs);
 
 console.log(result)

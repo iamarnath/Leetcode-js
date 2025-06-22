@@ -1,4 +1,31 @@
 /*
+271. Encode and Decode Strings - Explanation
+Problem Link
+
+Description
+Design an algorithm to encode a list of strings to a single string. The encoded string is then decoded back to the original list of strings.
+
+Please implement encode and decode
+
+Example 1:
+
+Input: ["neet","code","love","you"]
+
+Output:["neet","code","love","you"]
+Example 2:
+
+Input: ["we","say",":","yes"]
+
+Output: ["we","say",":","yes"]
+Constraints:
+
+0 <= strs.length < 100
+0 <= strs[i].length < 200
+strs[i] contains only UTF-8 characters.
+
+*/
+
+/*
 
 To decode the strings reliably, the encoded string must
 contain information about the length of each original string.
@@ -95,8 +122,7 @@ function customDecode(s) {
 // console.log("Encoded:", encoded);
 // console.log("Decoded:", decoded);
 
-// Online Javascript Editor for free
-// Write, Edit and Run your Javascript code using JS Online Compiler
+
 
 class Solution {
     /**

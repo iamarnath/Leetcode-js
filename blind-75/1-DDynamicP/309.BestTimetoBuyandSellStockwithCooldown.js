@@ -113,7 +113,7 @@ var maxProfitRec = function (prices) {
             to next day with buy = 1.
         */
         if (buy) {
-            // purchase on that day then i neeed to sell in future
+            // purchase on that day then i need to sell in future
             const take = maxP(day + 1, 0) - prices[day];// sell price -today's  buy price
             const not_take = maxP(day + 1, 1);//buying
             profit = Math.max(profit, take, not_take)

@@ -64,10 +64,10 @@ var maxArea = function (height) {
         // Move the pointer that's at the shorter line inwards
         // If the left line is shorter than the right line
         if (height[left] < height[right]) {
-            ++left;
+            left++;
         }
         else {
-            --right;
+            right--;
         }
     }
     // Return the maximum area found
