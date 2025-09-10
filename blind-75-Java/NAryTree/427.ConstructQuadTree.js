@@ -82,8 +82,8 @@ Constraints:
 
 n == grid.length == grid[i].length
 n == 2x where 0 <= x <= 6
-*/
-/*
+'''
+'''
 Time Complexity
 Worst case:
 Every cell is different, so the grid is subdivided 
@@ -130,49 +130,20 @@ Aspect	                    Best Case	   Worst Case
 Time Complexity	            O(N)	        O(NlogN)
 Space Complexity	        O(N)	         O(N)
 */
-class Node {
-    constructor(val, isLeaf, topLeft = null, topRight = null, bottomLeft = null, bottomRight = null) {
-        this.val = val;
-        this.isLeaf = isLeaf;
-        this.topLeft = topLeft;
-        this.topRight = topRight;
-        this.bottomLeft = bottomLeft;
-        this.bottomRight = bottomRight;
-    }
-}
-/*
-isAllSame(grid, x, y, n)
-
-Purpose:
-Checks if all values in the square subgrid of 
-size n x n, starting at position (x, y), are the same.
-
-How it works:
-
-Stores the value at grid[x][y] as val.
-
-Iterates through every cell in the subgrid from
- (x, y) to (x + n - 1, y + n - 1).
-
-If any cell has a value different from val, it returns false.
-
-If all cells are the same, returns true.
-
-*/
 function isAllSame(grid, x, y, n) {
     const val = grid[x][y];
-    //The outer loop (i) is responsible for moving through 
-    // each row in the specified subgrid area. It starts
-    //  at row index x and continues up to, but does not 
-    // include, x + n. This ensures it covers exactly n rows,
-    //  starting from x.
-    //For each row selected by the outer loop, the inner loop (j)
-    //  moves through each column in that row, starting at 
-    // column index y and continuing up to, but not 
-    // including, y + n. This covers exactly n columns in each row, 
+    // The outer loop (i) is responsible for moving through 
+    //  each row in the specified subgrid area. It starts
+    //   at row index x and continues up to, but does not 
+    //  include, x + n. This ensures it covers exactly n rows,
+    //   starting from x.
+    // For each row selected by the outer loop, the inner loop (j)
+    //   moves through each column in that row, starting at 
+    //  column index y and continuing up to, but not 
+     // including, y + n. This covers exactly n columns in each row, 
     // starting from y.
-    //The nested loops together visit every cell in the rectangular region of the grid that starts at position (x, y) and has size n x n.
-    //For every single row in the subgrid, the inner loop checks every column in that row, so every cell in the subgrid is visited once
+     //The nested loops together visit every cell in the rectangular region of the grid that starts at position (x, y) and has size n x n.
+     //For every single row in the subgrid, the inner loop checks every column in that row, so every cell in the subgrid is visited once
     for (let i = x; i < x + n; i++) {
         for (let j = y; j < y + n; j++) {
             if (grid[i][j] !== val) return false;
@@ -243,11 +214,3 @@ function printQuadTree(node, indent = "") {
         printQuadTree(node.bottomRight, indent + "bottomRight-> ");
     }
 }
-
-
-let grid = [[0,1],[1,0]];
-const quadTreeRoot = construct(grid);
-
-let res = printQuadTree(quadTreeRoot);
-
-console.log("result==",res);

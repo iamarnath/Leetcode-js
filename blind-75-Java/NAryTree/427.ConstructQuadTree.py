@@ -1,4 +1,4 @@
-/*
+'''
 427. Construct Quad Tree
 
 Given a n * n matrix grid of 0's and 1's only. 
@@ -82,8 +82,8 @@ Constraints:
 
 n == grid.length == grid[i].length
 n == 2x where 0 <= x <= 6
-*/
-/*
+'''
+'''
 Time Complexity
 Worst case:
 Every cell is different, so the grid is subdivided 
@@ -129,18 +129,9 @@ O(N) for the tree nodes.
 Aspect	                    Best Case	   Worst Case
 Time Complexity	            O(N)	        O(NlogN)
 Space Complexity	        O(N)	         O(N)
-*/
-class Node {
-    constructor(val, isLeaf, topLeft = null, topRight = null, bottomLeft = null, bottomRight = null) {
-        this.val = val;
-        this.isLeaf = isLeaf;
-        this.topLeft = topLeft;
-        this.topRight = topRight;
-        this.bottomLeft = bottomLeft;
-        this.bottomRight = bottomRight;
-    }
-}
-/*
+'''
+
+'''
 isAllSame(grid, x, y, n)
 
 Purpose:
@@ -158,21 +149,22 @@ If any cell has a value different from val, it returns false.
 
 If all cells are the same, returns true.
 
-*/
+'''
+'''
 function isAllSame(grid, x, y, n) {
     const val = grid[x][y];
-    //The outer loop (i) is responsible for moving through 
-    // each row in the specified subgrid area. It starts
-    //  at row index x and continues up to, but does not 
-    // include, x + n. This ensures it covers exactly n rows,
-    //  starting from x.
-    //For each row selected by the outer loop, the inner loop (j)
-    //  moves through each column in that row, starting at 
-    // column index y and continuing up to, but not 
-    // including, y + n. This covers exactly n columns in each row, 
-    // starting from y.
-    //The nested loops together visit every cell in the rectangular region of the grid that starts at position (x, y) and has size n x n.
-    //For every single row in the subgrid, the inner loop checks every column in that row, so every cell in the subgrid is visited once
+    # The outer loop (i) is responsible for moving through 
+    #  each row in the specified subgrid area. It starts
+    #   at row index x and continues up to, but does not 
+    #  include, x + n. This ensures it covers exactly n rows,
+    #   starting from x.
+    # For each row selected by the outer loop, the inner loop (j)
+    #   moves through each column in that row, starting at 
+    #  column index y and continuing up to, but not 
+    # // including, y + n. This covers exactly n columns in each row, 
+    # // starting from y.
+    # //The nested loops together visit every cell in the rectangular region of the grid that starts at position (x, y) and has size n x n.
+    # //For every single row in the subgrid, the inner loop checks every column in that row, so every cell in the subgrid is visited once
     for (let i = x; i < x + n; i++) {
         for (let j = y; j < y + n; j++) {
             if (grid[i][j] !== val) return false;
@@ -244,10 +236,65 @@ function printQuadTree(node, indent = "") {
     }
 }
 
+'''
+from typing import List
 
-let grid = [[0,1],[1,0]];
-const quadTreeRoot = construct(grid);
+class Node:
+    def __init__(self, val, isLeaf, topLeft=None, topRight=None, bottomLeft=None, bottomRight=None):
+        self.val = val
+        self.isLeaf = isLeaf
+        self.topLeft = topLeft
+        self.topRight = topRight
+        self.bottomLeft = bottomLeft
+        self.bottomRight = bottomRight
 
-let res = printQuadTree(quadTreeRoot);
+class Solution:
+    def construct(self, grid: List[List[int]]) -> 'Node':
+        def isAllSame(x, y, n):
+            val = grid[x][y]
+            for i in range(x, x + n):
+                for j in range(y, y + n):
+                    if grid[i][j] != val:
+                        return False
+            return True
 
-console.log("result==",res);
+        def solve(x, y, n):
+            if isAllSame(x, y, n):
+                return Node(bool(grid[x][y]), True)
+            else:
+                half = n // 2
+                return Node(
+                    True,
+                    False,
+                    solve(x, y, half),
+                    solve(x, y + half, half),
+                    solve(x + half, y, half),
+                    solve(x + half, y + half, half)
+                )
+
+        return solve(0, 0, len(grid))
+
+def print_quad_tree(node, indent=0):
+    if not node:
+        return
+    prefix = ' ' * indent
+    print(f"{prefix}Node(val={node.val}, isLeaf={node.isLeaf})")
+    if not node.isLeaf:
+        print(f"{prefix} topLeft:")
+        print_quad_tree(node.topLeft, indent + 2)
+        print(f"{prefix} topRight:")
+        print_quad_tree(node.topRight, indent + 2)
+        print(f"{prefix} bottomLeft:")
+        print_quad_tree(node.bottomLeft, indent + 2)
+        print(f"{prefix} bottomRight:")
+        print_quad_tree(node.bottomRight, indent + 2)
+
+# Example usage
+grid = [
+    [1, 1],
+    [1, 0]
+]
+
+sol = Solution()
+root = sol.construct(grid)
+print_quad_tree(root)
