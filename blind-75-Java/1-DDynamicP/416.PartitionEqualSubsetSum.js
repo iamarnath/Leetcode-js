@@ -66,8 +66,16 @@ var canPartitionRec = function (nums) {
     const target = sum / 2;
     const n = nums.length;
     // Initialize memoization table with -1
-    const memo = new Array(n).fill().map(() => new Array(target + 1).fill(-1));
-    function solve(i, x) {
+   // const memo = new Array(n).fill().map(() => new Array(target + 1).fill(-1));
+    const memo = [];
+    for (let i = 0; i < n; i++) {
+        memo[i] = [];
+        for (let j = 0; j < target + 1; j++) {
+            memo[i][j] = -1;
+        }
+    }
+ 
+   function solve(i, x) {
         if (x === 0) return true;
         if (i >= n) return false;
         if (memo[i][x] !== -1) return memo[i][x];
@@ -91,7 +99,16 @@ var canPartition = function (nums) {
         //t[row] = true: Zero sum is always achievable with any number of elements.
 
 //t[col] = false (implicit): No elements can form a non-zero sum.
-        const t = new Array(n + 1).fill().map(() => new Array(S + 1).fill(false));
+       // const t = new Array(n + 1).fill().map(() => new Array(S + 1).fill(false));
+       // const t = Array.from({ length: n + 1 }, () => Array.from({ length: S + 1 }, () => false));
+        const t = [];
+        for (let i = 0; i <= n; i++) {
+            t[i] = [];
+            for (let j = 0; j <= S; j++) {
+                t[i][j] = false;
+            }
+        }
+
         // Base case: sum 0 is always achievable
         for (let row = 0; row <= n; row++) {
             t[row][0] = true;

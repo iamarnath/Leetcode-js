@@ -54,6 +54,53 @@ The space complexity is O(1), meaning it uses a
 constant amount of extra space for variables regardless of the input size
 
 */
+/*
+Key Variables
+totalJumps: How many jumps have been made so far.
+
+destination: The last index of the array—the goal.
+
+coverage: The farthest index reachable with the jumps made so far.
+
+lastJumpIdx: The end of the range for the current jump.
+
+Logic Step-by-Step
+Edge case: If the array has only one element, no jumps are needed, so return 0 immediately.
+
+For loop: Go through every index (i) in the array:
+
+Update coverage: At each position, compute the maximum index you could reach from there (i + nums[i]) and update coverage if that reaches farther.
+
+Reach boundary of jump: If the current index is where the last jump could take you (i === lastJumpIdx), it's time to jump again:
+
+Update lastJumpIdx to the current coverage (this is the end of your next jump).
+
+Increment totalJumps (you made a new jump).
+
+Check finish: If you can now reach or go past the destination, return the jump count immediately.
+
+Why Is This "Greedy"?
+The greedy part is always trying to extend coverage as far as possible—at every index, you want to reach the farthest place you can with the fewest jumps.
+
+Example Walkthrough
+For nums = [2,3,1,1,4]:
+
+Start: coverage = 0, lastJumpIdx = 0, totalJumps = 0
+
+At i = 0: Maximum reachable = 0 + 2 = 2 (coverage = 2)
+
+At i == lastJumpIdx (i = 0): You must jump! Now lastJumpIdx = 2 (next coverage), totalJumps = 1
+
+i = 1: Maximum reachable = 1 + 3 = 4 (coverage updated to 4)
+
+i = 2: coverage stays at 4
+
+At i == lastJumpIdx (i = 2): You must jump again! lastJumpIdx = 4 (now you can reach the end), totalJumps = 2
+
+Since coverage >= destination (4 >= 4), it returns 2.
+
+You always extend coverage as far as possible within the “window” of your current jump, and only jump when you reach the end of that window
+*/
 var jump = function (nums) {
     let totalJumps = 0;
     // destination is last index
@@ -70,9 +117,9 @@ var jump = function (nums) {
         // between its current value and the farthest index 
         // reachable from i (which is i + nums[i]).
         coverage = Math.max(coverage, i + nums[i]);
-        console.log("coverage==",{ i, lastJumpIdx, coverage});
+        // console.log("coverage==",{ i, lastJumpIdx, coverage});
 
-        //Check if reached the boundary of the current jump:
+        // Check if reached the boundary of the current jump:
         //  If you reach the index where the last jump ended,
         //  update lastJumpIdx to the new farthest reachable
         //  index (coverage), and increment the jump count.

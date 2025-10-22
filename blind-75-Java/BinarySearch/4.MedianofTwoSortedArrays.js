@@ -219,15 +219,7 @@ nums1 = [1, 2]
 nums2 = [3, 4]
 
 Total elements = 
-m
-+
-n
-=
-2
-+
-2
-=
-4
+
 m+n=2+2=4 (even case). So our answer will be the average of the two middle values.
 
 Step 1: Setup
@@ -295,54 +287,6 @@ n
 4
 m+n=4 is even:
 
-median
-=
-max
-⁡
-(
-m
-a
-x
-L
-e
-f
-t
-X
-,
-m
-a
-x
-L
-e
-f
-t
-Y
-)
-+
-min
-⁡
-(
-m
-i
-n
-R
-i
-g
-h
-t
-X
-,
-m
-i
-n
-R
-i
-g
-h
-t
-Y
-)
-2
 median= 
 2
 max(maxLeftX,maxLeftY)+min(minRightX,minRightY)

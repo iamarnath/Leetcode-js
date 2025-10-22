@@ -257,3 +257,91 @@ public class CourseScheduleIV1462 {
         System.out.println(result);
     }
 }
+
+
+
+
+/*
+ class CourseScheduleIV1462 {
+    checkIfPrerequisite(numCourses, prerequisites, queries) {
+        // Creates an adjacency list (map) to store direct outward neighbors for each course (from u → v).
+        const adj = new Map();
+        // Array counting how many prerequisites each course has (number of incoming edges).
+        const indegree = new Array(numCourses).fill(0);
+
+        // Build adjacency list and indegree count
+        for (const [u, v] of prerequisites) {
+            // If u isn't in the map, create a new array, then add v to u's neighbor list
+            if (!adj.has(u)) {
+                adj.set(u, []);
+            }
+            adj.get(u).push(v);
+            // Increase indegree of course v (since each edge is a prerequisite for v)
+            indegree[v]++;
+        }
+
+        // Initialize queue with courses that have no prerequisites (indegree == 0)
+        const queue = [];
+        for (let i = 0; i < numCourses; i++) {
+            if (indegree[i] === 0) {
+                queue.push(i);
+            }
+        }
+
+        // Map from node to set of prerequisite nodes
+        // prereqMap.get(v) = set of all courses that are prerequisites for course v
+        const prereqMap = new Map();
+
+        // Topological BFS
+        while ( queue.length > 0 ) {
+            const node = queue.shift(); // dequeue
+
+            // Get neighbors of current node, or an empty list if none
+            const neighbors = adj.get(node) || [];
+
+            for (const neighbour of neighbors) {
+                // Ensure a set exists for this neighbor
+                if (!prereqMap.has(neighbour)) {
+                    prereqMap.set(neighbour, new Set());
+                }
+
+                // Add current node as a prerequisite of neighbor
+                prereqMap.get(neighbour).add(node);
+
+                // Also add all prerequisites of current node
+                const nodePrereqs = prereqMap.get(node) || new Set();
+                for (const pre of nodePrereqs) {
+                    prereqMap.get(neighbour).add(pre);
+                }
+
+                // Decrease indegree since we've "processed" one prerequisite
+                indegree[neighbour]--;
+                // If all prerequisites satisfied, push to queue
+                if (indegree[neighbour] === 0) {
+                    queue.push(neighbour);
+                }
+            }
+        }
+
+        // Process each query
+        const result = [];
+        for (const [src, dest] of queries) {
+            const prereqs = prereqMap.get(dest) || new Set();
+            result.push(prereqs.has(src));
+        }
+
+        return result;
+    }
+}
+
+// Example usage
+const numCourses = 3;
+const prerequisites = [[1, 2], [1, 0], [2, 0]];
+const queries = [[1, 0], [1, 2]];
+
+const solver = new CourseScheduleIV1462();
+const result = solver.checkIfPrerequisite(numCourses, prerequisites, queries);
+console.log(result); // Expected output: [true, true]
+ 
+ 
+*/

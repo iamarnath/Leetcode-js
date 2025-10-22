@@ -27,8 +27,27 @@ Input: numCourses = 2, prerequisites = [[0,1],[1,0]]
 Output: false
 Explanation: In order to take course 1 you must take course 0,
  and to take course 0 you must take course 1. So it is impossible.
-*/
 
+ */
+/*
+prerequisite is the key because, for every [course, prerequisite] pair in the prerequisites array, the problem definition says:
+"to take course course, one must take course prerequisite first"—so there is a directed edge from prerequisite to course in the course dependency graph.
+This means:
+
+prerequisite: the course that must be completed first (source of the edge)
+
+course: the course that depends on prerequisite (destination of the edge)
+
+So, for each entry [a, b] in prerequisites:
+
+Course b must be taken before course a
+
+There’s an edge from b → a
+
+Thus, adjacencyList[b].push(a) (i.e., list at index b contains all courses that depend on b directly).
+
+This structure allows quick lookup: “Given that I’ve finished course X, what courses can I now take next?”—simply scan adjacencyList[X]
+*/
 var canFinish = function (numCourses, prerequisites) {
     /*
         Adjacency List: Stores which courses depend on each course
@@ -40,7 +59,13 @@ var canFinish = function (numCourses, prerequisites) {
         Example: If course B needs 2 prerequisites, inDegree[B] = 2
     */
     // Create an adjacency list to represent the graph of courses
-    const adjacencyList = new Array(numCourses).fill(0).map(() => []);
+    //const adjacencyList = new Array(numCourses).fill(0).map(() => []);
+   // const adjacencyList = Array.from({ length: numCourses }, () => []);
+
+    const adjacencyList = [];
+    for (let i = 0; i < numCourses; i++) {
+        adjacencyList.push([]);
+    }
     // Array to store the in-degree (number of dependencies) of each course
     const inDegree = new Array(numCourses).fill(0);
     console.log("adjacencyList initial==",adjacencyList);
@@ -53,8 +78,6 @@ var canFinish = function (numCourses, prerequisites) {
     0 → 3
     ↑   ↓
     1 ← 2
-
-    
     */
     for (const [course, prerequisite] of prerequisites) {
         adjacencyList[prerequisite].push(course);
@@ -89,9 +112,9 @@ var canFinish = function (numCourses, prerequisites) {
         Reduce dependencies for all courses that required it
         Add courses to queue when their dependencies reach zero
         */
-        console.log("currentCourse==",currentCourse);
+       // console.log("currentCourse==",currentCourse);
         for (const adjacentCouse of adjacencyList[currentCourse]) {
-            console.log("inDegree[adjacentCouse]==",inDegree[adjacentCouse])
+         //   console.log("inDegree[adjacentCouse]==",inDegree[adjacentCouse])
             inDegree[adjacentCouse]--;
             if (inDegree[adjacentCouse] === 0) {
                 queue.push(adjacentCouse);
@@ -108,7 +131,7 @@ var canFinish = function (numCourses, prerequisites) {
 //This implementation efficiently
 //  detects cycles using O(V+E) time complexity (V=vertices, E=edges) 
 // and O(V) space complexity.
-let numCourses = 2, prerequisites = [[0, 1]];
-
+//let numCourses = 2, prerequisites = [[0, 1]];
+let numCourses = 2, prerequisites = [[0,1],[1,0]];
 console.log(canFinish(numCourses, prerequisites));
 

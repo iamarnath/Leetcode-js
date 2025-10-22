@@ -165,4 +165,30 @@ function countSubstringsDP(s) {
 
 let newres = countSubstringsDP(s);
 
+var countSubstrings = function(s) {
+    let count = 0;
+    const n = s.length;
+
+    function check(i, j) {
+        while (i >= 0 && j < n && s[i] === s[j]) {
+            count++;
+            i--;
+            j++;
+        }
+    }
+    /*
+    Every single character in the string is a center
+     for possible odd-length palindromes: check(s, i, i);
+    Every pair of consecutive characters in 
+    the string is a center for possible even-length 
+    palindromes: check(s, i, i+1);.
+    */
+    for (let i = 0; i < n; i++) {
+        check(i, i);     // Odd-length palindromes centered at i
+        check(i, i + 1); // Even-length palindromes centered at i and i+1
+    }
+    return count;
+}
+
+
 console.log("newres==", newres)

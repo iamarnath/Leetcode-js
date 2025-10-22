@@ -80,7 +80,9 @@ Space: O(V) - For storing adjacency list and intermediate structures
 // using Breadth First search
 var findOrder = function (numCourses, prerequisites) {
     const adj = {};
-    const indegree = new Array(numCourses).fill(0);
+    //const indegree = new Array(numCourses).fill(0);
+    const indegree = Array.from({ length: numCourses }, () => 0);
+
     //build graph and indegree array
     for (const [course, prereq] of prerequisites) {
         if (!adj[prereq]) adj[prereq] = [];

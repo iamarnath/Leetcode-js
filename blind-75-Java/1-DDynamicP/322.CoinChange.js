@@ -311,3 +311,22 @@ function coinChangeMin2(coins, amount) {
 let coins = [1,5,10], amount = 12;
 //let coins = [2], amount = 3;
  console.log("min coin 2==",coinChangeMin2(coins,amount));
+
+
+ function coinChangeMinRecursive(coins, amount, n) {
+    // Base Case: Exact Change
+    if (amount === 0) return 0;                    // No coins needed [web:1]
+    // Base Case: Impossible to form amount
+    if (n === 0 || amount < 0) return -1;     // Can't make amount [web:1]
+    // If coin value is less than or equal to amount, two choices
+    if (coins[n - 1] <= amount) {
+        // Take the coin or skip it
+        return Math.min(
+            1 + coinChangeMinRecursive(coins, amount - coins[n - 1], n),   // Take coin
+            coinChangeMinRecursive(coins, amount, n - 1)                   // Skip coin
+        );
+    } else {
+        // Cannot take this coin, skip it
+        return coinChangeMinRecursive(coins, amount, n - 1);
+    }
+}

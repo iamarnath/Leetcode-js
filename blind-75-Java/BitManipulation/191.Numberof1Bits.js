@@ -54,7 +54,7 @@ Subtracting 1 from n:
 When you subtract 1 from 
 n, all the bits after the rightmost set bit (including that bit) are flipped. 
 For example, if 
-n=52 (binary: 00110100), then 
+n=52   (binary: 00110100), then 
 n−1=51 (binary: 00110011).
 Bitwise AND:
 Performing n & (n - 1) keeps all bits the same except for the

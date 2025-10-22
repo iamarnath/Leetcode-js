@@ -186,7 +186,7 @@ function longestPalindrome(s) {
 Here's how the dynamic programming table (DP table t) is structured and visualized for the string 'babad' in the longestPalindrome algorithm. Each cell [i][j] shows if the substring from index i to j is a palindrome (1 for palindrome, 0 for not palindrome).
 
 DP Table Visualization
-0	1	2	3	4
+    0	1	2	3	4
 0	1	0	1	0	0
 1	0	1	0	1	0
 2	0	0	1	0	0
