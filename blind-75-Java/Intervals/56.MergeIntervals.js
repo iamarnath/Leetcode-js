@@ -39,6 +39,58 @@ Auxiliary Space: Sorting may require additional space depending on the JavaScrip
 Overall: O(n)
 
 */
+/*
+The use of .slice() in your merge intervals function is critical to avoid unwanted mutation of the input array. Here’s how it works and why it matters in both cases:
+
+Initial Slice: let newInterval = intervals.slice();
+What it does:
+Makes a shallow copy of the first interval in the original intervals array.
+
+Why:
+Without copying, if newInterval is merged (its end is updated), the change would affect the original array, possibly corrupting other data or leading to unintended results.
+
+Result:
+Any updates to newInterval inside the merge process do not alter intervals; result ends up with its own copy.
+
+Slice in the Loop: newInterval = interval.slice();
+When used:
+Whenever a disjoint interval (doesn’t overlap) is encountered.
+
+What it does:
+Creates a new copy of the current interval to start a new merge group and avoids mutating the input.
+
+Why:
+Ensures only the copies in result are being changed, preserving the originals in intervals.
+
+For the first interval in the for-of loop
+The first interval in the for of loop doesn't overlap with anything yet because newInterval and interval refer to the same data (the first interval, but as a copy).
+
+The loop still processes it, but since it’s already included and there’s no overlap to resolve, it moves forward.
+
+Why Mutation Matters
+If you assign intervals directly (without slice), then updates to newInterval may inadvertently update the intervals still being looped over in future iterations, leading to bugs. Using .slice() eliminates this risk.
+
+Summary Table
+
+Step	What .slice() does	Why it's needed
+Initial assignment	Copies first interval for merging	Prevents mutation of input array
+Disjoint interval in loop	Copies current interval for new merges	Keeps input intervals unchanged
+Ultimately, .slice() is a defensive programming technique to keep merging logic clean and avoid side effects, ensuring your function always returns correct, independent merged results.In your code, slice() is used to create a shallow copy of an interval array so that the merged results do not accidentally change (mutate) the contents of the original input array.
+
+Initially:
+let newInterval = intervals.slice();
+This copies the first interval (e.g., [1,3]) so that any later changes (like merging overlaps) happen only to the copy, not the original array. If you skipped .slice(), updating newInterval would directly alter intervals, which is bad practice and can cause bugs.
+
+Inside the loop (in the else branch):
+newInterval = interval.slice();
+This is for when a disjoint (non-overlapping) interval is found, and you need to start tracking a new merge group. Again, .slice() ensures any changes to newInterval won’t affect the entry in the original intervals list.
+
+On the first iteration:
+The for...of loop does process the first interval, but no merging or overlap handling occurs yet because the result already contains a copy of the first interval.
+
+Summary:
+.slice() is necessary here to prevent in-place modification of the input and to keep merged results independent from the source data. On the first iteration, there is no overlap to handle—the copied interval is simply compared with itself, so nothing changes until the next interval is processed.
+*/
 var merge = function (intervals) {
     //If the input has 0 or 1 interval, there’s nothing to merge, so return the input as is.
     if (intervals.length <= 1) return intervals;
@@ -57,10 +109,13 @@ var merge = function (intervals) {
      console.log("before loop newInterval==",newInterval);
     result.push(newInterval);
     //console.log("result==",result);
+
+    console.log("intervals==",intervals)
     for (const interval of intervals) {
-        console.log("interval==",interval);
-        console.log("newInterval==",newInterval);
+        // console.log("interval==",interval);
+        // console.log("newInterval==",newInterval);
         if (interval[0] <= newInterval[1]) {
+            console.log("if newInterval==",interval);
             //If the current interval’s start is less than or 
             // equal to the end of newInterval, they overlap.
             //Update the end of newInterval to be the maximum 
@@ -82,7 +137,7 @@ var merge = function (intervals) {
          
 
             newInterval = interval.slice();
-             //  console.log("newInterval==",newInterval);
+            console.log("newInterval else ==",newInterval);
             result.push(newInterval);
         }
     }

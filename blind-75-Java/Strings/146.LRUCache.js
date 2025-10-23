@@ -93,7 +93,7 @@ LRUCache.prototype.put = function(key, value) {
  * var param_1 = obj.get(key)
  * obj.put(key,value)
  */
-
+//Maintains Insertion Order: The Map object in JavaScript preserves the order of keys, which makes it easy to track which key is the least recently used—this is essential for the eviction policy of an LRU cache.
 class LRUCache {
   constructor(capacity) {
     this.capacity = capacity;
@@ -117,6 +117,8 @@ class LRUCache {
       // Remove least recently used key (first in Map)
       //extracts the least recently used key (the first key inserted)
       //  from the JavaScript Map object for the LRU cache.
+      //alternate way
+      //const [firstKey] = map.keys();
       const firstKey = this.cache.keys().next().value;
       this.cache.delete(firstKey);
     }

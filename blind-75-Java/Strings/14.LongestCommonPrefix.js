@@ -85,6 +85,7 @@ function longestCommonPrefix(strs) {
 //After sorting, the most different strings 
 // (in terms of prefix) will be at the two ends of the array.
     strs.sort();
+    console.log("sorted strings==",strs);
     // Get the first and last strings
     //After sorting, the longest common prefix of the whole
     //  array must be the common prefix of the first and last strings.
@@ -109,7 +110,7 @@ function longestCommonPrefix(strs) {
 // console.log(longestCommonPrefix(["flower", "flow", "flight"])); // Output: "fl"
 // console.log(longestCommonPrefix(["dog", "racecar", "car"]));    // Output: ""
 
-//let strs = ["flower","flow","flight"];
-strs = ["dog","racecar","car"];
+let strs = ["flower","flow","flight"];
+//let strs = ["dog","racecar","car"];
 let res = longestCommonPrefix(strs);
 console.log("res==",res)

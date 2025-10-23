@@ -89,7 +89,25 @@ function generateParenthesisNotUse(n) {
     return result;
 }
 
+/*
+In the C++ code, curr.pop_back() is used after
+ appending a character to the string so the
+  recursion can backtrack and restore curr
+   to its previous state after each recursive call.
+    This is necessary because the curr string is
+     mutated in place using push_back() and must
+      be returned to its previous form for the next branch of recursion.
 
+In JavaScript, strings are immutable. When 
+concatenating a character (e.g., curr + '(')
+, a new string is created and passed to the
+ recursive function. This means the original 
+ string (curr) remains unchanged, so there is
+  no need to remove the last character after 
+  the recursive call. Consequently, there is 
+  no equivalent to pop_back() in the JavaScript
+   version; the immutability of strings makes backtracking automatic
+*/
 function generateParenthesis(n) {               // (1) Defines main function with input n: number of pairs
     const result = [];                          // (2) Initialize output array to store valid parentheses combinations
     function solve(curr, open, close) {         // (3) Helper function to perform backtracking

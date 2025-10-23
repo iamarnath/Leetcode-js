@@ -184,6 +184,83 @@ Clean up spaces	Removes extra/trailing spaces
 Join and return	Returns the final reversed string
 
 */
+/*
+Here’s a detailed, line-by-line explanation of the provided code for reversing the words in a string, maintaining only single spaces and removing extra ones:
+
+js
+var reverseWords = function (s) {
+Defines a function named reverseWords that receives a string s as input.
+
+js
+    let arr = s.split("");
+Converts the input string into an array of characters, allowing in-place array manipulation.
+
+js
+    arr.reverse();
+Reverses the entire array of characters, so the word order and each word itself are reversed.
+(e.g., "a good example" → "elpmaxe   doog a")
+
+js
+    let n = arr.length;
+Stores the length of the character array in variable n for easy reference in the loop.
+
+js
+    let i = 0;
+    let l = 0, r = 0;
+Initializes three pointers:
+
+i: For iterating through the characters.
+
+l: Marks the start of the next word.
+
+r: Marks where to copy the next non-space character (the write pointer).
+
+js
+    while (i < n) {
+Starts the main loop, iterating through every character of the array.
+
+js
+        while (i < n && arr[i] !== " ") {
+            arr[r] = arr[i];
+            r++;
+            i++;
+        }
+Processes a word:
+
+For each non-space character, copy it to position r and increment both i and r.
+
+This skips spaces, effectively collapsing multiple spaces.
+
+js
+        if (l < r) {
+            reverseArr(arr, l, r - 1);
+            if (r < n) arr[r++] = " ";
+            l = r;
+        }
+After copying a word:
+
+Reverse the word in place between l and r-1, restoring the original letter order for the word.
+
+If more characters remain, write a single space at arr[r] and increment r.
+
+Update l to start at the next write position, prepping for the next word.
+
+js
+        i++;//move past spaces
+    }
+Move the read pointer i past any spaces (if present) to reach the next word.
+
+js
+    if (r > 0 && arr[r - 1] === " ") r--;
+Removes a trailing space, if the last character in the processed array is a space.
+
+js
+    return arr.slice(0, r).join("");
+};
+Returns the result as a string:
+
+Joins only the active portion of arr (from 0 to r, exclusive of any leftover characters or spaces past r).
+*/
 // Helper function to reverse a portion of the array
 var reverseArr = function (arr, left, right) {
     while (left < right) {
@@ -192,39 +269,139 @@ var reverseArr = function (arr, left, right) {
         right--;
     }
 }
+// var reverseWords = function (s) {
+//     let arr = s.split("");
+//     arr.reverse();
+
+//     console.log("arr==",arr)
+//     let n = arr.length;
+//     let i = 0;
+//     // l and r will help in reverse
+//     let l = 0, r = 0;
+//     while (i < n) {
+//         // Copy non-space characters forward
+//         // if i get char,it will give it to r,
+//         while (i < n && arr[i] !== " ") {
+//             arr[r] = arr[i];
+//             r++;
+//             i++;
+//            // console.log("arr[r]==",arr,r,i);
+//         }
+//       // now i get space,reverse the words now
+//         // Reverse the word we just copied
+//         if (l < r) {
+//             reverseArr(arr, l, r - 1);
+//             // Add a space after the word if there's more to process
+//             if (r < n) arr[r++] = " ";
+//             l = r;
+//             //console.log("reverseArr==",arr,l,r)
+//         }
+//         i++;//move past spaces
+//     }
+//     // Remove trailing space if any
+//     if (r > 0 && arr[r - 1] === " ") r--;
+//     return arr.slice(0, r).join("");
+
+// };
+
 var reverseWords = function (s) {
     let arr = s.split("");
     arr.reverse();
-   // console.log("arr==",arr)
+
     let n = arr.length;
     let i = 0;
+    // l and r will help in reverse
+    // hero honge hamare l and r jo reverse karenge words ko
+
     let l = 0, r = 0;
     while (i < n) {
         // Copy non-space characters forward
+        // if i get char,it will give it to r,
+        // i ko agar char dikha to r ko dega and i++ and r++
         while (i < n && arr[i] !== " ") {
             arr[r] = arr[i];
             r++;
             i++;
-            console.log("arr[r]==",arr,r,i);
         }
-      
-        // Reverse the word we just copied
-        if (l < r) {
-            reverseArr(arr, l, r - 1);
-            // Add a space after the word if there's more to process
-            if (r < n) arr[r++] = " ";
-            l = r;
-            //console.log("reverseArr==",arr,l,r)
-        }
+     
+        if (l < r) { 
+            reverse(arr, l, r - 1);
+                
+            arr[r] = ' ';
+            r++;
+                
+                l = r;
+            }
         i++;//move past spaces
     }
-    // Remove trailing space if any
-    if (r > 0 && arr[r - 1] === " ") r--;
-    return arr.slice(0, r).join("");
+    let result = arr.slice(0, r - 1).join('');
+    return result;
 
 };
+/*
+arr.slice(0, r - 1) in JavaScript means taking a portion of the array starting at index 0 and ending just before index (r - 1)—the end index is not included.
+
+This method returns a new array containing all elements from index 0 up to index (r - 2) in the original array, without changing the original array.
+
+For example:
+
+If arr = ['a', 'b', 'c', 'd'] and r = 3, then arr.slice(0, 2) gives ['a', 'b'].
+
+Whatever value (r - 1) is, the slice will include everything from the start up to, but not including, this index.
+*/
 
 
 s = "a good   example";
 let res = reverseWords(s);
 console.log("reverseWords==", res);
+
+/*
+Step-by-Step Logic
+Initial Reverse:
+The string is converted to an array of characters with split("") and the entire array is reversed using arr.reverse().
+
+For example, "a good example" becomes ['e','l','p','m','a',' ',' ',' ','d','o','o','g',' ','a'] after reversal.
+
+Word Extraction and In-place Reverse:
+Iteration is performed through the reversed array to extract each word and copy it forward.
+
+r tracks where to write the new character, and l is the start index for each word.
+
+For each non-space character, it's copied to arr[r].
+
+Upon encountering a space, the segment between l and r-1 is reversed to correct the word order.
+
+If more words remain, a single space is inserted at arr[r].
+
+This process cleans up extra spaces and maintains only one space between words.
+
+Trimming:
+After processing, any extra space at the end is removed: if the last character is a space, reduce r by 1.
+
+Result:
+Return only the meaningful portion of the array (arr.slice(0, r).join("")) as the final result.
+
+Visualization Example
+Given s = "a good example":
+
+Reverse full string:
+"a good example" → "elpmaxe doog a"
+
+Process and copy words forward, fixing each word by reversing their characters and inserting exactly one space between words:
+
+"elpmaxe" → "example"
+
+"doog" → "good"
+
+"a" → "a"
+
+Final output:
+"example good a"
+
+Key Features
+Handles extra spaces: Collapses multiple spaces between words into one and removes leading/trailing spaces.
+
+In-place operation: No need for extra arrays or splits by word; all work is done on the character array.
+
+Efficient: Each character is processed a constant number of times.
+*/

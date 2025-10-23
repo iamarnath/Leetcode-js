@@ -80,7 +80,27 @@ s = "()[]{";
 let res = isValid(s);
 
 //console.log("isValid ==",isValid(s));
+/*
+The statement for(const ch of s) uses the for...of loop to iterate over each character in the string s, giving the value of each character one at a time.
 
+What for...of Does
+Iterates over values: For strings, arrays, Maps, Sets, etc., it loops through each value—not keys or indices.
+
+In your example, ch will take on the values '(', ')', '[', ']', '{', and '}', one at a time.
+
+Differences from Other Loops
+Loop Type	Iterates Over	Best For	Example Usage
+for...of	Values of iterable	Arrays, strings, Maps, Sets	for (const ch of s) → '(' ')' '[' ']' '{' '}'
+for...in	Keys/properties	Objects, array indices	for (const i in s) → '0' '1' '2' ...
+for loop	Indices (customizable)	Any (flexible with condition/index)	for (let i=0;i<s.length;i++) → s[i] access
+for...in is for looping object properties/keys and array indices, not direct values.
+
+for loop (the classic version) gives manual control over index and can access indices, values, or any range or step needed.
+
+for...of is more concise for values; it is preferred for directly working with iterable values, such as looping over characters in a string or items in an array.
+
+
+*/
 var isValid = function(s) {
     const stack = [];
     const pairs = {

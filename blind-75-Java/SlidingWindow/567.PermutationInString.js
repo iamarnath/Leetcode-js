@@ -26,7 +26,7 @@ Constraints:
 
 */
 
-function checkInclusion(s1, s2) {
+var checkInclusion = function(s1, s2) {
     const n = s1.length;
     const m = s2.length;
 

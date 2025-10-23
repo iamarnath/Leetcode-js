@@ -47,7 +47,7 @@ let maxPathSumValue = -Infinity;
  * @return {number} The maximum sum from the current node down to any leaf.
  */
 
-function maxPathSumDfs(node) {
+function maxPathSumDfsOLD(node) {
     if (node === null) {
         return 0;
     }
@@ -69,11 +69,49 @@ function maxPathSumDfs(node) {
  * @param {TreeNode|null} root - The root of the binary tree.
  * @return {number} The maximum path sum in the binary tree.
  */
-function maxPathSum(root) {
+ function maxPathSumDfs(node) {
+    if (node === null) {
+        return 0;
+    }
+ 
+    let left = maxPathSumDfs(node.left);
+    let right = maxPathSumDfs(node.right);
+    //The total path sum if the path passes 
+    // through this node and includes both 
+    // children (i.e., left -> node -> right).
+    let neecheHiMilgayaAnswer = left + right + node.val; // (1)
+    // The maximum path sum using either left or right child plus 
+    // the current node.
+    //  This path can be extended upward to the node's parent.
+    let koiEkAcha = Math.max(left, right) + node.val; // (2)
+    //onlyRootAcha: Only the current node's value,
+    //  considering the case where starting a new path at this node is best
+    
+    let onlyRootAcha = node.val; // (3)
+    //Update the global maximum with any of the three possibilities: passing 
+    // through both children, extending from one side, or just the node itself.
+    maxPathSumValue = Math.max(maxPathSumValue,neecheHiMilgayaAnswer, koiEkAcha,onlyRootAcha);
+    
+    // Most important part
+    //For the purpose of recursion (i.e., for the parent 
+    // node), return the best single-branch path 
+    // sum that can be extended upwards: either 
+    // through one child plus the node, or just the node.
+
+    //Never return a split path (neecheHiMilgayaAnswer) 
+    // upward because a parent cannot take both left 
+    // and right contributions from its child—this
+    //  would make the path non-linear (i.e., a fork, which is not allowed)
+    return Math.max(koiEkAcha, onlyRootAcha);
+
+}
+
+var maxPathSum = function(root) {
     maxPathSumValue = -Infinity; // Reset global max before computation
     maxPathSumDfs(root);
     return maxPathSumValue;
-}
+};
+
 
 //let root1 = [1,2,3];
 let root1 = [-15,10,20,null,null,15,5,-5]

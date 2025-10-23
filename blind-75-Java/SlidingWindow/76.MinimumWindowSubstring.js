@@ -116,7 +116,7 @@ function minWindow(s, t) {
             }
             i++;
 
-        }// end of req count while
+        }// end of req count 0 while
 
         j++;
     } //end of j while
@@ -127,7 +127,10 @@ function minWindow(s, t) {
 let s = "OUZODYXAZV", t = "XYZ";
 console.log(minWindow(s, t));
 /*
-The provided code finds the minimum window substring in a string s that contains all the characters from string t. For s = "OUZODYXAZV" and t = "XYZ", here is a step-by-step visualization of how the sliding window moves and updates:
+The provided code finds the minimum window substring in a
+ string s that contains all the characters from string t.
+  For s = "OUZODYXAZV" and t = "XYZ", here is a step-by-step 
+  visualization of how the sliding window moves and updates:
 
 Initial State
 s: "O U Z O D Y X A Z V"
@@ -140,24 +143,25 @@ requiredCount: 3
 
 Sliding Window Steps
 Step	i	j	Window	charMap (after s[j])	requiredCount	Min Window
-1	0	0	O	{ O:-1, X:1, Y:1, Z:1 }	3	
-2	0	1	OU	{ O:-1, U:-1, X:1, Y:1, Z:1 }	3	
-3	0	2	OUZ	{ ... , Z:0 }	2	
-4	0	3	OUZO	{ ... , O:-2 }	2	
-5	0	4	OUZOD	{ ... , D:-1 }	2	
-6	0	5	OUZODY	{ ... , Y:0 }	1	
-7	0	6	OUZODYX	{ ... , X:0 }	0	OUZODYX (len=7)
-1	6	UZODYX	{ O:-1 } (removing O)	0	UZODYX (len=6)
-2	6	ZODYX	{ U:0 } (removing U)	0	ZODYX (len=5)
-3	6	ODY X	{ Z:1 } (removing Z; >0)	1	
-8	3	7	ODYXA	{ A:-1 }	1	
-9	3	8	ODYXAZ	{ Z:0 }	0	O D Y X A Z (6)
-4	8	DYXAZ	{ O:0 } (removing O)	0	D Y X A Z (5)
-5	8	YXAZ	{ D:0 } (removing D)	0	Y X A Z (4)
-6	8	XAZ	{ Y:1 } (removing Y, >0)	1	
-10	6	9	XAZV	{ V:-1 }	1	
+1	    0	0	O	    { O:-1, X:1, Y:1, Z:1 }	3	
+2	    0	1	OU	{ O:-1, U:-1, X:1, Y:1, Z:1 }	3	
+3	    0	2	OUZ	{ ... , Z:0 }	2	
+4	    0	3	OUZO	{ ... , O:-2 }	2	
+5	    0	4	OUZOD	{ ... , D:-1 }	2	
+6	    0	5	OUZODY	{ ... , Y:0 }	1	
+7	    0	6	OUZODYX	{ ... , X:0 }	0	OUZODYX (len=7)
+1	    6	    UZODYX	{ O:-1 } (removing O)	0	UZODYX (len=6)
+2	    6	    ZODYX	{ U:0 } (removing U)	0	ZODYX (len=5)
+3	    6	    ODY X	{ Z:1 } (removing Z; >0)	1	
+8	    3	7	ODYXA	{ A:-1 }	1	
+9	    3	8	ODYXAZ	{ Z:0 }	0	O D Y X A Z (6)
+4	    8	    DYXAZ	{ O:0 } (removing O)	0	D Y X A Z (5)
+5	    8	    YXAZ	{ D:0 } (removing D)	0	Y X A Z (4)
+6	    8	    XAZ	    { Y:1 } (removing Y, >0)	1	
+10	    6	9	XAZV	{ V:-1 }	1	
 Result
-The smallest window that contains all required letters is "YXAZ", starting at index 5 with length 4.
+The smallest window that contains all required letters is "YXAZ",
+ starting at index 5 with length 4.
 
 Explanation of Each Action
 The window slides right, adding characters.
@@ -166,16 +170,20 @@ When a character from t is found, its count in charMap decreases.
 
 When all counts for t's letters are zero or lower, requiredCount reaches 0.
 
-The inner loop removes characters from the left, updating i, until not all characters are satisfied.
+The inner loop removes characters from the left, 
+updating i, until not all characters are satisfied.
 
-It updates the minimum window each time a valid window (requiredCount == 0) is found.
+It updates the minimum window each time a valid 
+window (requiredCount == 0) is found.
 
 Highlighted Output
-Minimum window substring that contains all "X", "Y", "Z" from "OUZODYXAZV" is "YXAZ".
+Minimum window substring that contains all "X", "Y", "Z" 
+from "OUZODYXAZV" is "YXAZ".
 
 Visualization
 0	1	2	3	4	5	6	7	8	9
 O	U	Z	O	D	Y	X	A	Z	V
 [Y]	[X]	[A]	[Z]	
 The window covering indices 5 to 8 gives the answer.
+
 */
